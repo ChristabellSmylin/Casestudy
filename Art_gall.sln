@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Art_gall", "Art_gall\Art_gall.csproj", "{9E49D5C3-6CA1-4E6B-9EE8-8AB93AE217FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtManagementTestProject1", "ArtManagementTestProject1\ArtManagementTestProject1.csproj", "{CE531756-8297-4CCF-88AE-AB31AAD9F4B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E49D5C3-6CA1-4E6B-9EE8-8AB93AE217FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E49D5C3-6CA1-4E6B-9EE8-8AB93AE217FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E49D5C3-6CA1-4E6B-9EE8-8AB93AE217FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E49D5C3-6CA1-4E6B-9EE8-8AB93AE217FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE531756-8297-4CCF-88AE-AB31AAD9F4B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE531756-8297-4CCF-88AE-AB31AAD9F4B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE531756-8297-4CCF-88AE-AB31AAD9F4B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE531756-8297-4CCF-88AE-AB31AAD9F4B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32E4EFE0-F0B7-4C6F-8066-D91B043F9AB0}
+	EndGlobalSection
+EndGlobal
