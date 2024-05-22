@@ -10,6 +10,8 @@ namespace Art_gall.Model
     {
         public int GalleryID { get; set; }
         public string Name { get; set; }
+        public string Website { get;  set; }
+
         public string Description { get; set; }
         public string Location { get; set; }
         // Foreign key to represent the curator
@@ -19,5 +21,6 @@ namespace Art_gall.Model
         public string OpeningHours { get; set; }
         // Navigation property for many-to-many relationship with Artwork
         public ICollection<ArtworkGallery> ArtworkGalleries { get; set; }
+       
     }
 }

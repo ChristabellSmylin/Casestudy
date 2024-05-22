@@ -1,5 +1,6 @@
 ﻿using Art_gall.DAO;
 using Art_gall.Model;
+using static Art_gall.Exceptions.ExceptionHandling;
 
 namespace ArtManagementTestProject1
 {
@@ -23,9 +24,10 @@ namespace ArtManagementTestProject1
         [Test()]
         public void GetArtworkList_Test()
         {
+          
             List<Artwork> artworkList = crimeAnalysisService.GetArtworkList();
-            //var artworkList = crimeAnalysisService.GetArtworkList();
 
+            // It verifies that the artworkList variable is not null.
             // Assert
             Assert.IsNotNull(artworkList);
         }
@@ -46,7 +48,7 @@ namespace ArtManagementTestProject1
 
             // Assert
             Assert.IsTrue(result);
-            // You can add more assertions based on your specific requirements
+            
         }
 
 
@@ -54,13 +56,11 @@ namespace ArtManagementTestProject1
         public void RemoveArtwork_Test()
         {
             // Arrange
-            int artworkIdToRemove = 7; // Provide an artwork ID to remove
+            int nonExistentArtworkID = 10; 
 
-            // Act
-            var result = crimeAnalysisService.RemoveArtwork(artworkIdToRemove);
-
-            // Assert
-            Assert.IsTrue(result);
+            // Act & Assert
+            Assert.Throws<ArtWorkNotFoundException>(() => crimeAnalysisService.RemoveArtwork(nonExistentArtworkID),
+                "Expected RemoveArtwork to throw ArtWorkNotFoundException for non-existent artwork ID.");
 
         }
 
@@ -72,7 +72,7 @@ namespace ArtManagementTestProject1
 
             // Assert
             Assert.IsNotNull(searchResults); // Assert that the result is not null
-            Assert.Greater(searchResults.Count, 0);
+            Assert.Greater(searchResults.Count, 0);//It verifies that the count of  searchResults list is greater than 0
         }
 
         

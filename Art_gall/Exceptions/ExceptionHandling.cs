@@ -19,5 +19,10 @@ namespace Art_gall.Exceptions
         {
             public UserNotFoundException(string message) : base(message) { }
         }
+
+        public class GalleryNotFoundException : ExceptionHandling
+        {
+            public GalleryNotFoundException(string message) : base(message) { }
+        }
     }
 }

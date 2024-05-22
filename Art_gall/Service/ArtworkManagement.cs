@@ -1,7 +1,5 @@
 ﻿using Art_gall.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +35,7 @@ namespace Art_gall.Service
         //Update artwork input get
         public static void UpdateArtworkDetailsFromUser(Artwork artwork)
         {
-            Console.WriteLine("Enter The artwork ID:");
+            Console.WriteLine("Enter The artwork ID which you want to get updated ");
             Console.Write("ArtworkID: ");
             //artwork.ArtworkID = Console.ReadLine();
             string input = Console.ReadLine();
@@ -79,7 +77,7 @@ namespace Art_gall.Service
 
         public static void AddUserData(User user)
         {
-            Console.WriteLine("Enter the Required Data for adding users:");
+            
             Console.WriteLine("Enter User Name:");
             user.Username = Console.ReadLine();
 

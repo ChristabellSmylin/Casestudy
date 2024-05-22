@@ -24,7 +24,9 @@ namespace ArtManagementTestProject1
             // Act
             using (var sw = new System.IO.StringWriter())
             {
+                //redirects the standard output stream (console output) to the StringWriter
                 Console.SetOut(sw);
+                //This line redirects the standard input stream (console input) to a StringReader
                 Console.SetIn(new System.IO.StringReader($"{title}\n{description}\n{creationDate.ToString("yyyy-MM-dd")}\n{medium}\n{imageURL}\n"));
 
                 ArtworkManagement.GetArtworkDetailsFromUser(artwork);
@@ -41,31 +43,36 @@ namespace ArtManagementTestProject1
                 Assert.AreEqual(imageURL, artwork.ImageURL);
             }
         }
-
         [Test]
+       
         public void UpdateArtworkDetailsFromUser_InputValidData()
         {
             // Arrange
             Artwork artwork = new Artwork();
             int artworkID = 1;
-            string title = "Updated Test Title";
-            string description = "Updated Test Description";
+            string title = "Title";
+            string description = "Description";
             DateTime creationDate = new DateTime(2022, 05, 05);
             string medium = "Updated Test Medium";
             string imageURL = "Updated Test Image URL";
 
             // Act
-            using (var sw = new System.IO.StringWriter())
+            using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                Console.SetIn(new System.IO.StringReader($"{artworkID}\n{title}\n{description}\n{creationDate.ToString("yyyy-MM-dd")}\n{medium}\n{imageURL}\n"));
+                Console.SetIn(new StringReader($"{artworkID}\n{title}\n{description}\n{creationDate:yyyy-MM-dd}\n{medium}\n{imageURL}\n"));
 
                 ArtworkManagement.UpdateArtworkDetailsFromUser(artwork);
 
-                string expectedOutput = $"Enter The artwork ID:{Environment.NewLine}" +
+                string expectedOutput = $"Enter The artwork ID which you want to get updated {Environment.NewLine}" +
                                         $"ArtworkID: Enter updated artwork details:{Environment.NewLine}" +
                                         $"Title: Description: Creation Date (YYYY-MM-DD): Medium: Image URL: ";
-                Assert.AreEqual(expectedOutput, sw.ToString());
+
+                // Normalize newlines
+                string actualOutput = sw.ToString().Replace("\r\n", "\n");
+                expectedOutput = expectedOutput.Replace("\r\n", "\n");
+
+                Assert.AreEqual(expectedOutput, actualOutput);
 
                 // Assert
                 Assert.AreEqual(artworkID, artwork.ArtworkID);

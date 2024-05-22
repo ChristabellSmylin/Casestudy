@@ -29,7 +29,7 @@ namespace Art_gall.DAO
 
                     string query = "SELECT * FROM Artwork";
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlCommand command = new SqlCommand(query, connection))//execution of sql query
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -58,7 +58,7 @@ namespace Art_gall.DAO
 
             foreach (Artwork artwork in artworkList)
             {
-                Console.WriteLine($"ArtworkID: {artwork.ArtworkID} \n Title: {artwork.Title} \n CreationDate: {artwork.CreationDate} \n  ImageURL: {artwork.ImageURL}\n Description: {artwork.Description}\n Medium: {artwork.Medium}");
+                Console.WriteLine($"ArtworkID: {artwork.ArtworkID} \n Title: {artwork.Title} \n CreationDate: {artwork.CreationDate} \n  ImageURL: {artwork.ImageURL}\n Description: {artwork.Description}\n Medium: {artwork.Medium}\n");
             }
             return artworkList;
 
@@ -100,7 +100,7 @@ namespace Art_gall.DAO
                 {
                     // Set the ArtworkID of the provided artwork object
                     artwork.ArtworkID = lastInsertedId;
-                    Console.WriteLine("Artwork inserted successfully.");
+                    
                     return true;
                 }
                 else
@@ -138,7 +138,7 @@ namespace Art_gall.DAO
 
                     if (rowsAffected > 0)
                     {
-                        Console.WriteLine("Artwork removed successfully.");
+                    
                         return true;
                     }
                     else
@@ -191,7 +191,7 @@ namespace Art_gall.DAO
 
                     if (rowsAffected > 0)
                     {
-                        Console.WriteLine("Artwork updated successfully.");
+                      
                         return true;
                     }
                     else
@@ -324,7 +324,7 @@ namespace Art_gall.DAO
                         // return rowsAffected > 0;
                         if (rowsAffected > 0)
                         {
-                            Console.WriteLine("Artwork Added to Fav successfully.");
+                           
                             return true;
                         }
                         else
@@ -360,8 +360,6 @@ namespace Art_gall.DAO
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
-
-                            Console.WriteLine("Removed Artwork From Fav  successfully.");
                             return true;
                         }
                         else
@@ -452,7 +450,7 @@ namespace Art_gall.DAO
                         // return rowsAffected > 0;
                         if (rowsAffected > 0)
                         {
-                            Console.WriteLine("Added TO  Gallery successfully.");
+                           
                             return true;
                         }
                         else
@@ -466,12 +464,12 @@ namespace Art_gall.DAO
             }
             catch (Exception ex)
             {
-                throw new ArtWorkNotFoundException(ex.Message); ;
+                throw new GalleryNotFoundException(ex.Message); ;
 
             }
         }
 
-        public List<Artwork> GetUserFavoriteArtworkGallery(int userId)
+        public List<Artwork> GetFavoriteArtworkGallery(int galleryId)
         {
             List<Artwork> favoriteArtworksgallery = new List<Artwork>();
 
@@ -480,15 +478,14 @@ namespace Art_gall.DAO
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     string query = @"SELECT a.*
-                             FROM Artwork AS a
-                             INNER JOIN User_Favorite_Artwork AS ufa ON 
-                              a.ArtworkID = ufa.ArtworkID
-                             WHERE ufa.UserID = @UserID";
+                                  FROM Artwork AS a
+                                  INNER JOIN Artwork_Gallery AS g ON a.ArtworkID = g.ArtworkID
+                                  WHERE g.GalleryID = @GalleryID";
 
                     using (SqlCommand cmd = new SqlCommand(query, connection))
                     {
                         // Correct parameter name and value
-                        cmd.Parameters.AddWithValue("@UserID", userId);
+                        cmd.Parameters.AddWithValue("@GalleryID", galleryId);
 
                         connection.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -503,7 +500,7 @@ namespace Art_gall.DAO
                                     CreationDate = reader["CreationDate"] != DBNull.Value ? Convert.ToDateTime(reader["CreationDate"]) : DateTime.MinValue,
                                     Medium = reader["Medium"] != DBNull.Value ? reader["Medium"].ToString() : string.Empty,
                                     ImageURL = reader["ImageURL"] != DBNull.Value ? reader["ImageURL"].ToString() : string.Empty,
-                                    ArtistID = reader["ArtistID"] != DBNull.Value ? Convert.ToInt32(reader["ArtistID"]) : 0
+                                    //ArtistID = reader["ArtistID"] != DBNull.Value ? Convert.ToInt32(reader["ArtistID"]) : 0
                                 };
                                 favoriteArtworksgallery.Add(artwork);
                             }
@@ -519,6 +516,100 @@ namespace Art_gall.DAO
             return favoriteArtworksgallery;
         }
 
+        public List<Gallery> GetGalleryList()
+        {
+            List<Gallery> galleryList = new List<Gallery>();
+
+            try
+            {
+                using (SqlConnection connection = DBPropertyUtil.DBConnection.GetConnection())
+                {
+                    connection.Open();
+
+                    string query = "SELECT * FROM Gallery";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Gallery gallery = new Gallery
+                                {
+                                    GalleryID = reader.GetInt32(reader.GetOrdinal("GalleryID")),
+                                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                                    Website = reader.GetString(reader.GetOrdinal("Website")),
+                                    Description = reader.GetString(reader.GetOrdinal("Description")),
+                                    Location = reader.GetString(reader.GetOrdinal("Location")),
+                                    OpeningHours = reader.GetString(reader.GetOrdinal("OpeningHours")),
+                                };
+
+                                galleryList.Add(gallery);
+                            }
+                        }
+                    }
+                }
+            }
+           
+            catch (Exception ex)
+            {
+                throw new GalleryNotFoundException(ex.Message);
+            }
+
+            foreach (Gallery gallery in galleryList)
+            {
+                Console.WriteLine($"GalleryID: {gallery.GalleryID} \nName: {gallery.Name} \n Website: {gallery.Website}\nDescription: {gallery.Description} \nLocation: {gallery.Location}\nOpeningHours: {gallery.OpeningHours}\n");
+            }
+            return galleryList;
+        }
+
+        public List<Artwork> GetArtworkByGallery(int galleryId)
+        {
+
+            List<Artwork> getartworkbygallery = new List<Artwork>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"SELECT a.*
+                                  FROM Artwork AS a
+                                  INNER JOIN Artwork_Gallery AS g ON a.ArtworkID = g.ArtworkID
+                                  WHERE g.GalleryID = @GalleryID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        // Correct parameter name and value
+                        cmd.Parameters.AddWithValue("@GalleryID", galleryId);
+
+                        connection.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Artwork artwork = new Artwork
+                                {
+                                    ArtworkID = Convert.ToInt32(reader["ArtworkID"]),
+                                    Title = reader["Title"].ToString(),
+                                    Description = reader["Description"].ToString(),
+                                    CreationDate = reader["CreationDate"] != DBNull.Value ? Convert.ToDateTime(reader["CreationDate"]) : DateTime.MinValue,
+                                    Medium = reader["Medium"] != DBNull.Value ? reader["Medium"].ToString() : string.Empty,
+                                    ImageURL = reader["ImageURL"] != DBNull.Value ? reader["ImageURL"].ToString() : string.Empty,
+                                    
+                                };
+                                getartworkbygallery.Add(artwork);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new GalleryNotFoundException(ex.Message);
+            }
+
+            return getartworkbygallery;
+        }
     }
 }
 

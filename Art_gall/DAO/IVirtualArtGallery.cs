@@ -21,7 +21,9 @@ namespace Art_gall.DAO
         bool RemoveArtworkFromFavorite(int userId, int artworkId);
         List<Artwork> GetUserFavoriteArtworks(int userId);
         bool AddArtworktoGallery(int artworkId, int galleryId);
-        List<Artwork> GetUserFavoriteArtworkGallery(int artworkId);
+        List<Gallery> GetGalleryList();
+      
+        List<Artwork> GetArtworkByGallery(int galleryId);
 
 
     }

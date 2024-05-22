@@ -44,12 +44,12 @@ namespace Art_gall.DAO
                         // return rowsAffected > 0;
                         if (Useradded > 0)
                         {
-                            Console.WriteLine("User Added successfully.");
+                            
                             return true;
                         }
                         else
                         {
-                            Console.WriteLine("Failed to Add User .");
+                            
                             return false;
                         }
                     }
@@ -83,31 +83,30 @@ namespace Art_gall.DAO
                             {
                                 User loginUser = new User
                                 {
-
+                                    UserID = reader.GetInt32(reader.GetOrdinal("UserID")),
                                     Username = reader.GetString(reader.GetOrdinal("Username")),
                                     Password = reader.GetString(reader.GetOrdinal("Password")),
+                                   
                                 };
-                               
+
                                 currentUser = loginUser;
-                                Console.WriteLine($"USerID: {loginUser.UserID},UserName: {loginUser.Username},Password: {loginUser.Password}, FirstName: {loginUser.FirstName}, LastName: {loginUser.LastName}, EMAIL: {loginUser.Email}, DOB: {loginUser.DateOfBirth}, Profile PIC: {loginUser.ProfilePicture}");//Act as session storage
+                                Console.WriteLine($"UserID: {loginUser.UserID}, UserName: {loginUser.Username}");
                                 return loginUser;
                             }
                             else
                             {
                                 return null;
                             }
-
                         }
                     }
-
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
         }
+
 
 
         public User Logout()
