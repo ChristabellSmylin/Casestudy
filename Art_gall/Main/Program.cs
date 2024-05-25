@@ -133,6 +133,7 @@ namespace Art_gall.Main
 
                         case 2:
                             Console.WriteLine("----------------------- Find Artwork By ID Start --------------------");
+                            
                             Console.Write("Enter the ID of the artwork to find: ");
                             if (int.TryParse(Console.ReadLine(), out int artworkID) && artworkID > 0)
                             {
